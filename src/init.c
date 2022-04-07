@@ -6,11 +6,11 @@
 /*   By: gjacinta <gjacinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 15:41:52 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/06 16:18:26 by gjacinta         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:43:38 by gjacinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../minishell.h"
 
 void	add_env(t_env_v **env_v, char *name, char *value, bool export)
 {

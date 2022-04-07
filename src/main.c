@@ -6,11 +6,11 @@
 /*   By: gjacinta <gjacinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 13:13:50 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/06 16:23:17 by gjacinta         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:45:31 by gjacinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../minishell.h"
 
 int	main(int argc, char **argv, char **envp)
 {
