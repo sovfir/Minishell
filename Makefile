@@ -1,25 +1,27 @@
-NAME = pipex
+NAME = minishell
 
-LIB_PATH = ./libft/
+HOMEBREW_PREFIX := $(shell test -n "$$(which brew)" \
+      && brew config | grep HOMEBREW_PREFIX | cut -d' ' -f2)
 
-LIB = -L ./libft -lft
+RL_LIB = $(HOMEBREW_PREFIX)/opt/readline/lib
+#$(HOMEBREW_PREFIX)/Cellar/readline/8.1.2/include
+RL_INC = $(HOMEBREW_PREFIX)/opt/readline/include/readline
+#$(HOMEBREW_PREFIX)/Cellar/readline/8.1.2/lib
+SRCS = 
 
-SRCS = pipex.c\
-		utils.c\
+CC = cc
 
-CC = gcc
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER = pipex.h
+HEADER = minishell.h
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -lreadline
 
 all: $(NAME)
 
 $(NAME): $(HEADER) $(OBJS) $(SRCS)
-		make -C $(LIB_PATH)
-		$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $@
+		$(CC) $(CFLAGS) -I$(RL_INC) -I$(RL_LIB) -g -L$(RL_LIB) $(OBJS) -o$(NAME) $@
 
 clean: 
 	@rm -f *.out
@@ -34,3 +36,7 @@ fclean:	clean
 re: fclean all
 
 .PHONY: all clean fclean re bonus
+
+cc -I/Users/lshonta/.brew/Cellar/readline/8.1.2/include/readline -I/Users/lshonta/.brew/Cellar/readline/8.1.2/lib -g -L/Users/lshonta/.brew/Cellar/readline/8.1.2/lib -lreadline ./src/*.c ./utils/*.c -o minishel
+
+cc -I/Users/lshonta/.brew/opt/readline/include/readline -I/Users/lshonta/.brew/opt/readline/lib -g -L/Users/lshonta/.brew/opt/readline/lib -lreadline ./src/*.c ./utils/*.c -o minishel

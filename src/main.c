@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gjacinta <gjacinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 13:13:50 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/08 16:24:21 by gjacinta         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:13:42 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 static void	handler(int signal)
 {
-	
-	// rl_on_new_line();
-	// // rl_replace_line();
-	// rl_redisplay();
+	rl_on_new_line();
+	rl_redisplay();
 	if (signal == SIGINT)
 	{
 		write(1, "  \b\b\n", 5);
 		rl_on_new_line();
-		rl_newline(0,0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	// else
-		// write(1, "  \b\b", 4);
+	else
+		write(1, "  \b\b", 4);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -46,13 +44,14 @@ int	main(int argc, char **argv, char **envp)
 	init_env(&envi->env_v, envi->envp);
 	add_env(&envi->env_v, ft_strdup("?"), ft_strdup("0"), false);
 	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 	while (1)
 	{
 		input = readline(BLUE"minishell$ "RESETCOLOR);
 		if (input != NULL)
 			{
 				add_history(input);
-				write_history("history.txt");
+				// write_history("history.txt");
 			}
 		// else
 		// 	exit(0);
