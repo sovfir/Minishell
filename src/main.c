@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gjacinta <gjacinta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 13:13:50 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/13 16:13:42 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/04/20 14:02:25 by gjacinta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	main(int argc, char **argv, char **envp)
 				add_history(input);
 				// write_history("history.txt");
 			}
-		// else
-		// 	exit(0);
-		// ft_parser();
+		else
+			exit(0);
+		ft_parser(input, envi);
 	}
 }
 
