@@ -6,7 +6,7 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 13:20:12 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/13 15:32:36 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/04/20 14:53:55 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,10 @@ char	**ft_split_tokens(t_token *tokens, int type);
 int		ft_strchr(const char *s, int c);
 int	ft_strcmp(const char *s1, const char *s2);
 void	ft_write_error(char *command, char *arg, char *error);
+
+// parse tokens
+t_token	*ft_lexer(char **line);
+t_token *init_token(void);
+void	input_data(t_token *token, char **line, int i);
 
 #endif
