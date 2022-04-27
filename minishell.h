@@ -6,7 +6,7 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 13:20:12 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/20 14:53:55 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/04/27 20:00:10 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,9 @@ void	ft_write_error(char *command, char *arg, char *error);
 t_token	*ft_lexer(char **line);
 t_token *init_token(void);
 void	input_data(t_token *token, char **line, int i);
+
+// parse redirection
+void	parse_redirect(t_env *env, t_token *token);
+char	**convert_token(t_token *token);
 
 #endif
