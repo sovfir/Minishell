@@ -6,7 +6,7 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 13:20:12 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/27 20:00:10 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/04/29 20:26:47 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,12 @@ void	input_data(t_token *token, char **line, int i);
 // parse redirection
 void	parse_redirect(t_env *env, t_token *token);
 char	**convert_token(t_token *token);
+
+// ----------------------------------------------------------
+
+
+char	**convert_token(t_token *token);
+int **create_array(t_token *tokens);
+char	*env_vars(char *s, t_env_v *env_v);
 
 #endif

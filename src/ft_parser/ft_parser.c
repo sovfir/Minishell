@@ -6,7 +6,7 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:03:54 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/27 20:02:52 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/04/29 20:07:45 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ static void	parse_childs(t_token *token, int fd_in, int fd_out, t_env *env)
 	dup2(fd_in, STDIN_FILENO);
 	if (fd_out != -1)
 		dup2(fd_out, STDOUT_FILENO);
-	input = convert_token(token); //****
+	// input - содержит только команды
+	input = convert_token(token);
 	if(input[0] != NULL)
+		printf(input[0]);
 		execute(input, env); // ****
 	ft_free_split(input);
 	exit(0);
@@ -89,15 +91,15 @@ void	ft_parser(char *input, t_env *envi)
 	t_token	*tokens;
 	char	**line;
 
-	input = env_vars(input, envi->env_v);
-	input = remove_spaces(input);
+	input = env_vars(input, envi->env_v); //****
+	input = remove_spaces(input);  //****
 	tokens = ft_lexer(ft_split(line, ' '));
-	if (line[0] != '\0' && check_redict(line && check_quote(line))
+	if (line[0] != '\0' && check_redict(line && check_quote(line)))   //**** //****
 	{
-		remove_quote(token);
-		if (has_pipe(token) == true)
-			ft_pipe(token, envi, 0);
-		else if (has_redirect(token) == true)
-			parse_redirect(env, tokens);
+		remove_quote(tokens);  //****
+		if (has_pipe(tokens) == true)  //****
+			ft_pipe(tokens, envi, 0);  //****
+		else if (has_redirect(tokens) == true)  //****
+			parse_redirect(envi, tokens); 
 	}
 }
