@@ -1,42 +1,73 @@
-NAME = minishell
+# FLAGS
+CFLAGS = -Wall -Wextra -Werror
+LFR= -L$$HOME/.brew/opt/readline/lib -lreadline
+LFRC = -I$$HOME/.brew/opt/readline/include
 
-HOMEBREW_PREFIX := $(shell test -n "$$(which brew)" \
-      && brew config | grep HOMEBREW_PREFIX | cut -d' ' -f2)
+# COLORS
+Y = "\033[33m"
+R = "\033[31m"
+G = "\033[32m"
+B = "\033[34m"
+X = "\033[0m"
+UP = "\033[A"
+CUT = "\033[K"
 
-RL_LIB = $(HOMEBREW_PREFIX)/opt/readline/lib
-#$(HOMEBREW_PREFIX)/Cellar/readline/8.1.2/include
-RL_INC = $(HOMEBREW_PREFIX)/opt/readline/include/readline
-#$(HOMEBREW_PREFIX)/Cellar/readline/8.1.2/lib
-SRCS = 
+# EXECUTABLE
+NAME = ./minishell
 
-CC = cc
+# PATHS
+SRC_PATH = ./src/
+OBJ_PATH = ./obj/
+# UTILS_PATH = $(SRC_PATH)utils/
 
+# SOURCES
+SRC =	$(SRC_PATH)main.c \
+		src/executer/*.c	\
+		src/utils/*.c	\
+		src/parser/*.c	\
+		$(SRC_PATH)/env_struct/*c
 
-OBJS = $(SRCS:.c=.o)
+# OBJECTS
+OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))
 
-HEADER = minishell.h
-
-CFLAGS = -lreadline
-
+# RULES
 all: $(NAME)
 
-$(NAME): $(HEADER) $(OBJS) $(SRCS)
-		$(CC) $(CFLAGS) -I$(RL_INC) -I$(RL_LIB) -g -L$(RL_LIB) $(OBJS) -o$(NAME) $@
+$(OBJ_PATH)%.o :$(SRC_PATH)%.c
+	@echo $(Y)Compiling [$@]...$(X)
+	@mkdir -p $(dir $@)
+	@gcc $(LFRC) $(CFLAGS) -c -o $@ $<
+	@sleep 0.5
+	@printf $(UP)$(CUT)
+	@echo $(G)Finished [$@]$(X)
+	@sleep 0.5
+	@printf $(UP)$(CUT)
 
-clean: 
-	@rm -f *.out
-	@rm -f *.o
-	@rm -f $(OBJS)
-	make clean -C $(LIB_PATH)
+$(NAME): $(OBJ)
+	@gcc $(CFLAGS) $(OBJ) $(LFR) $(LFRC) -o $(NAME)
+	@echo $(G)Finished [$(NAME)]$(X)
 
-fclean:	clean
-	@rm -f $(NAME)
-	make fclean -C $(LIB_PATH)
+clean:
+	@if [ -d "$(OBJ_PATH)" ]; then \
+			rm -f -r $(OBJ_PATH); \
+			echo $(R)Cleaning" "[$(OBJ) $(OBJ_PATH)]...$(X); else \
+			echo "No objects to remove."; \
+	fi;
+
+fclean: clean
+	@if [ -f "$(NAME)" ]; then \
+			rm -f $(NAME); \
+			echo $(R)Cleaning" "[$(NAME)]...$(X);else \
+			echo "No executable to remove."; \
+	fi;
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+# ADDITIONAL RULES
 
-cc -I/Users/lshonta/.brew/Cellar/readline/8.1.2/include/readline -I/Users/lshonta/.brew/Cellar/readline/8.1.2/lib -g -L/Users/lshonta/.brew/Cellar/readline/8.1.2/lib -lreadline ./src/*.c ./utils/*.c -o minishel
+norm:
+	@echo $(G)Checking Norminette...$(X)
+	@norminette | grep Error | egrep --color '.*Error!|$$' || true
+	@echo $(G)Done$(X)
 
-cc -I/Users/lshonta/.brew/opt/readline/include/readline -I/Users/lshonta/.brew/opt/readline/lib -g -L/Users/lshonta/.brew/opt/readline/lib -lreadline ./src/*.c ./utils/*.c -o minishel
+.PHONY: all, clean, fclean, re, norm

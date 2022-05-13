@@ -6,11 +6,13 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 20:08:01 by lshonta           #+#    #+#             */
-/*   Updated: 2022/04/29 20:26:35 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/05/13 18:04:37 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+
 
 static char *split_env_vars(char *s, bool dol_at_end, t_env_v *env_v)
 {
