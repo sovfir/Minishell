@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gjacinta <gjacinta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 13:13:50 by gjacinta          #+#    #+#             */
-/*   Updated: 2022/04/20 14:02:25 by gjacinta         ###   ########.fr       */
+/*   Created: 2022/05/23 17:23:06 by lshonta           #+#    #+#             */
+/*   Updated: 2022/05/23 17:31:30 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 static void	handler(int signal)
 {
@@ -29,51 +29,29 @@ static void	handler(int signal)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_env	*envi;
+	char	*line;
+	t_env	*env;
 
 	if (argc != 1 && argv != NULL)
 	{
-		perror("ARGUMENT!");
+		perror(RED"Usage: ./minishell");
 		return (1);
 	}
-	envi = malloc(sizeof(t_env));
-	if (envi == NULL)
+	env = malloc(sizeof(t_env));
+	if (env == NULL)
 		return (1);
-	envi->envp = envp;
-	init_env(&envi->env_v, envi->envp);
-	add_env(&envi->env_v, ft_strdup("?"), ft_strdup("0"), false);
+	env->envp = envp;
+	init_env(&env->env_v, env->envp);
+	add_env(&env->env_v, ft_strdup("?"), ft_strdup("0"), false);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
-	while (1)
+	while (true)
 	{
-		input = readline(BLUE"minishell$ "RESETCOLOR);
-		if (input != NULL)
-			{
-				add_history(input);
-				// write_history("history.txt");
-			}
+		line = readline(GREEN"minishell$ "RESETCOLOR);
+		if (line != NULL)
+			add_history(line);
 		else
-			exit(0);
-		ft_parser(input, envi);
+			ft_exit(NULL, true, env->env_v);
+		parser(line, env);
 	}
 }
-
-// int main()
-// {
-//         char *inpt;
-
-//         int i = 0;
-
-//         while ( i < 10 )
-//         {
-//                 inpt = readline("Minishell$ ");
-//                 add_history(inpt);
-//                 printf("%s", inpt);
-//                 printf("\n");
-//                 ++i;
-//         }
-
-//         return 0;
-
-// }

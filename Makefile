@@ -1,73 +1,50 @@
-# FLAGS
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/05/23 17:12:53 by lshonta           #+#    #+#              #
+#    Updated: 2022/05/23 17:13:08 by lshonta          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = ./minishell
+
 CFLAGS = -Wall -Wextra -Werror
 LFR= -L$$HOME/.brew/opt/readline/lib -lreadline
 LFRC = -I$$HOME/.brew/opt/readline/include
 
-# COLORS
-Y = "\033[33m"
-R = "\033[31m"
-G = "\033[32m"
-B = "\033[34m"
-X = "\033[0m"
-UP = "\033[A"
-CUT = "\033[K"
-
-# EXECUTABLE
-NAME = ./minishell
-
-# PATHS
 SRC_PATH = ./src/
 OBJ_PATH = ./obj/
-# UTILS_PATH = $(SRC_PATH)utils/
 
-# SOURCES
 SRC =	$(SRC_PATH)main.c \
 		src/executer/*.c	\
 		src/utils/*.c	\
 		src/parser/*.c	\
 		$(SRC_PATH)/env_struct/*c
 
-# OBJECTS
 OBJ = $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o, $(SRC))
 
-# RULES
 all: $(NAME)
 
 $(OBJ_PATH)%.o :$(SRC_PATH)%.c
-	@echo $(Y)Compiling [$@]...$(X)
 	@mkdir -p $(dir $@)
 	@gcc $(LFRC) $(CFLAGS) -c -o $@ $<
-	@sleep 0.5
-	@printf $(UP)$(CUT)
-	@echo $(G)Finished [$@]$(X)
-	@sleep 0.5
-	@printf $(UP)$(CUT)
 
 $(NAME): $(OBJ)
 	@gcc $(CFLAGS) $(OBJ) $(LFR) $(LFRC) -o $(NAME)
-	@echo $(G)Finished [$(NAME)]$(X)
 
 clean:
-	@if [ -d "$(OBJ_PATH)" ]; then \
-			rm -f -r $(OBJ_PATH); \
-			echo $(R)Cleaning" "[$(OBJ) $(OBJ_PATH)]...$(X); else \
-			echo "No objects to remove."; \
-	fi;
+	@rm -f -r $(OBJ_PATH);
 
 fclean: clean
-	@if [ -f "$(NAME)" ]; then \
-			rm -f $(NAME); \
-			echo $(R)Cleaning" "[$(NAME)]...$(X);else \
-			echo "No executable to remove."; \
-	fi;
+	@rm -f $(NAME); 
 
 re: fclean all
 
-# ADDITIONAL RULES
-
 norm:
-	@echo $(G)Checking Norminette...$(X)
 	@norminette | grep Error | egrep --color '.*Error!|$$' || true
-	@echo $(G)Done$(X)
 
 .PHONY: all, clean, fclean, re, norm
