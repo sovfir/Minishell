@@ -6,7 +6,7 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:19:37 by lshonta           #+#    #+#             */
-/*   Updated: 2022/05/23 17:29:49 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/05/28 15:46:05 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <limits.h>
+
+# include <sys/wait.h>
+# include <sys/resource.h>
 
 # define GREEN "\033[38;5;36m"
 # define RED "\033[0;31m"
@@ -97,6 +100,7 @@ char	**ft_split_env(const char *s, char c);
 char	**ft_split_tokens(t_token *tokens, int type);
 bool	ft_isnum(char *s);
 size_t	ft_strclen(const char *s, char c);
+void	handler(int sig);
 
 void	executer(char **commands, t_env *env);
 void	cd(char *path, t_env_v *env_v);
@@ -137,5 +141,6 @@ bool	in_quotes(char *s, int pos, char c, char c2);
 bool	safe_redirections(t_token *tokens, int type, int type1, int *arr);
 t_token	*after_pipe(t_token *tokens);
 t_token	*lexer(char **line);
+void	ft_signal(int i);
 
 #endif

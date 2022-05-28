@@ -6,7 +6,7 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:27:47 by lshonta           #+#    #+#             */
-/*   Updated: 2022/05/23 17:27:47 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/05/28 16:40:57 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	own_function(char *s)
 		return (true);
 	else if (ft_strcmp(s, "pwd") == 0 || ft_strcmp(s, "env") == 0)
 		return (true);
-	else if (ft_strcmp(s, "echo") == 0 || ft_strcmp(s, "ls") == 0)
+	else if (ft_strcmp(s, "echo") == 0)
 		return (true);
 	return (false);
 }
@@ -31,13 +31,21 @@ static int	fork_execute(char *path, char **args, t_env *env)
 	int		error;
 
 	pid = fork();
+	ft_signal(2);
 	if (pid == 0)
 	{
+		ft_signal(3);
 		error = execve(path, args, env->envp);
 		exit(error);
 	}
-	else
-		wait(&error);
+	waitpid(pid, &error, WUNTRACED);
+	if (WIFSIGNALED(error))
+	{
+		if (WTERMSIG(error) == 3)
+			printf("Quit: 3\n");
+		else
+			printf("\n");
+	}
 	error /= 255;
 	if (error == 256)
 		error = 127;

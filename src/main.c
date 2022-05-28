@@ -6,26 +6,11 @@
 /*   By: lshonta <lshonta@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:23:06 by lshonta           #+#    #+#             */
-/*   Updated: 2022/05/23 17:31:30 by lshonta          ###   ########.fr       */
+/*   Updated: 2022/05/28 15:48:15 by lshonta          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	handler(int signal)
-{
-	rl_on_new_line();
-	rl_redisplay();
-	if (signal == SIGINT)
-	{
-		write(1, "  \b\b\n", 5);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else
-		write(1, "  \b\b", 4);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -43,10 +28,9 @@ int	main(int argc, char **argv, char **envp)
 	env->envp = envp;
 	init_env(&env->env_v, env->envp);
 	add_env(&env->env_v, ft_strdup("?"), ft_strdup("0"), false);
-	signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
 	while (true)
 	{
+		ft_signal(1);
 		line = readline(GREEN"minishell$ "RESETCOLOR);
 		if (line != NULL)
 			add_history(line);
